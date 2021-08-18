@@ -2,7 +2,7 @@ package main
 
 import "github.com/faiface/pixel/pixelgl"
 
-func check_key_press(player *Entity, window *pixelgl.Window) {
+func checkKeyPress(player *Entity, window *pixelgl.Window) {
 	switch {
 	case window.JustPressed(pixelgl.KeyLeft):
 		player.Move(-1, 0)

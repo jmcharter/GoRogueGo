@@ -10,7 +10,7 @@ import (
 	"golang.org/x/image/colornames"
 )
 
-func draw_grid(surface *pixelgl.Window) {
+func drawGrid(surface *pixelgl.Window) {
 	imd := imdraw.New(nil)
 	imd.Color = LINE_COLOUR
 	for x := 0.0; x < WIDTH; x += TILE_SIZE {
@@ -25,7 +25,7 @@ func draw_grid(surface *pixelgl.Window) {
 	}
 }
 
-func draw_entity(entity Entity, surface *pixelgl.Window) {
+func drawEntity(entity Entity, surface *pixelgl.Window) {
 	imd := imdraw.New(nil)
 	imd.Color = entity.colour
 	imd.Push(pixel.V(entity.grid_x, entity.grid_y))
@@ -52,11 +52,11 @@ func run() {
 	)
 
 	for !win.Closed() {
-		check_key_press(&player, win)
+		checkKeyPress(&player, win)
 		win.Clear(BG_COLOUR)
-		draw_entity(player, win)
+		drawEntity(player, win)
 		if GRID_ON {
-			draw_grid(win)
+			drawGrid(win)
 		}
 		win.Update()
 	}

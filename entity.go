@@ -6,6 +6,8 @@ import (
 	"github.com/faiface/pixel"
 )
 
+// Entity is the base struct that all other entities will be based on
+// e.g Player, NPCs, MOBs, Items
 type Entity struct {
 	x      int
 	y      int
@@ -15,6 +17,10 @@ type Entity struct {
 	colour color.RGBA
 }
 
+// CreateEntity returns a new Entity with give positional co-ordianates
+// and colour.
+//
+// rect is calculated based on x, y ints and TILE_SIZE const.
 func CreateEntity(x, y int, colour color.RGBA) Entity {
 	F_TILE_SIZE := float64(TILE_SIZE)
 	fx := float64(x)
@@ -33,12 +39,14 @@ func CreateEntity(x, y int, colour color.RGBA) Entity {
 	}
 }
 
+// Move updates the x and y values of Entity by dx and dy
 func (e *Entity) Move(dx, dy int) {
 	e.x += dx
 	e.y += dy
 	e.updateGridPos()
 }
 
+// updateGridPos updates the values of grid_x and grid_y in respect to x and y
 func (e *Entity) updateGridPos() {
 	e.grid_x = float64(e.x * TILE_SIZE)
 	e.grid_y = float64(e.y * TILE_SIZE)
