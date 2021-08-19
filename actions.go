@@ -1,9 +1,11 @@
 package main
 
+// MoveAction will check that a move is valid for a given entity and if so, call
+// that entity's Move method.
 func MoveAction(dx, dy int, entity *Entity) {
-	new_x := entity.x + dx
-	new_y := entity.y + dy
-	if !posInBound(new_x, new_y) {
+	newX := entity.x + dx
+	newY := entity.y + dy
+	if !posInBound(newX, newY) {
 		return
 	}
 	if entity.CheckCollision(dx, dy, entities) {
