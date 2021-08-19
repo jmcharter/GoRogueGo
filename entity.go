@@ -1,27 +1,32 @@
 package main
 
 import (
+	"fmt"
 	"image/color"
 
 	"github.com/faiface/pixel"
 )
 
+// Slice to hold all active entities
+var entities = []*Entity{}
+
 // Entity is the base struct that all other entities will be based on
 // e.g Player, NPCs, MOBs, Items
 type Entity struct {
-	x      int
-	y      int
-	gridX  float64
-	gridY  float64
-	rect   pixel.Rect
-	colour color.RGBA
+	x              int
+	y              int
+	gridX          float64
+	gridY          float64
+	rect           pixel.Rect
+	colour         color.RGBA
+	blocksMovement bool
 }
 
 // CreateEntity returns a new Entity with give positional co-ordianates
 // and colour.
 //
 // rect is calculated based on x, y ints and TILE_SIZE const.
-func CreateEntity(x, y int, colour color.RGBA) Entity {
+func CreateEntity(x, y int, colour color.RGBA, blocksMovement bool) Entity {
 	F_TILE_SIZE := float64(TILE_SIZE)
 	fx := float64(x)
 	fy := float64(y)
@@ -35,12 +40,17 @@ func CreateEntity(x, y int, colour color.RGBA) Entity {
 			Min: pixel.V(fx*F_TILE_SIZE, fy*F_TILE_SIZE),
 			Max: pixel.V(fx*F_TILE_SIZE+F_TILE_SIZE, fy*F_TILE_SIZE+F_TILE_SIZE),
 		},
-		colour: colour,
+		colour:         colour,
+		blocksMovement: blocksMovement,
 	}
 }
 
 // Move updates the x and y values of Entity by dx and dy
 func (e *Entity) Move(dx, dy int) {
+	if e.CheckCollision(dx, dy) {
+		return
+	}
+
 	e.x += dx
 	e.y += dy
 	e.updateGridPos()
@@ -50,4 +60,17 @@ func (e *Entity) Move(dx, dy int) {
 func (e *Entity) updateGridPos() {
 	e.gridX = float64(e.x * TILE_SIZE)
 	e.gridY = float64(e.y * TILE_SIZE)
+}
+
+func (e Entity) CheckCollision(dx, dy int) bool {
+	for num, entity := range entities {
+		fmt.Println(num, entity)
+		if !entity.blocksMovement {
+			continue
+		}
+		if entity.x == e.x+dx && entity.y == e.y+dy {
+			return true
+		}
+	}
+	return false
 }

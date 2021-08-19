@@ -46,15 +46,25 @@ func run() {
 	}
 
 	player := CreateEntity(
-		rand.Intn(GRID_WIDTH),
-		rand.Intn(GRID_HEIGHT),
+		10,
+		5,
 		colornames.Orangered,
+		false,
 	)
+
+	entities = append(entities, &player)
+
+	for x := 10; x < 16; x++ {
+		new_entity := CreateEntity(x, 15, colornames.Navajowhite, true)
+		entities = append(entities, &new_entity)
+	}
 
 	for !win.Closed() {
 		checkKeyPress(&player, win)
 		win.Clear(BG_COLOUR)
-		drawEntity(player, win)
+		for _, entity := range entities {
+			drawEntity(*entity, win)
+		}
 		if GRID_ON {
 			drawGrid(win)
 		}
