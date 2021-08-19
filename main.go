@@ -55,8 +55,8 @@ func run() {
 	entities = append(entities, &player)
 
 	for x := 10; x < 16; x++ {
-		new_entity := CreateEntity(x, 15, colornames.Navajowhite, true)
-		entities = append(entities, &new_entity)
+		newEntity := CreateEntity(x, 15, colornames.Navajowhite, true)
+		entities = append(entities, &newEntity)
 	}
 
 	for !win.Closed() {

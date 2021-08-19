@@ -1,7 +1,6 @@
 package main
 
 import (
-	"fmt"
 	"image/color"
 
 	"github.com/faiface/pixel"
@@ -47,10 +46,6 @@ func CreateEntity(x, y int, colour color.RGBA, blocksMovement bool) Entity {
 
 // Move updates the x and y values of Entity by dx and dy
 func (e *Entity) Move(dx, dy int) {
-	if e.CheckCollision(dx, dy) {
-		return
-	}
-
 	e.x += dx
 	e.y += dy
 	e.updateGridPos()
@@ -62,9 +57,11 @@ func (e *Entity) updateGridPos() {
 	e.gridY = float64(e.y * TILE_SIZE)
 }
 
-func (e Entity) CheckCollision(dx, dy int) bool {
-	for num, entity := range entities {
-		fmt.Println(num, entity)
+// CheckCollision will compare an entities expected new position with the current
+// position of all other existing entities and return a bool.
+// Return true if there would be two entities in on position.
+func (e Entity) CheckCollision(dx, dy int, others []*Entity) bool {
+	for _, entity := range others {
 		if !entity.blocksMovement {
 			continue
 		}
