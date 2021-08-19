@@ -1,6 +1,6 @@
 package main
 
-type MapVec struct {
+type mapVec struct {
 	x, y int
 }
 
@@ -18,11 +18,11 @@ func CreateMapRectangle(x, y, w, h int) mapRectangle {
 }
 
 // GetCentre returns the centre coordinates of the rectangle
-func (rec mapRectangle) GetCentre() MapVec {
-	centre_x := (rec.minX + rec.maxX) / 2
-	centre_y := (rec.minY + rec.maxY) / 2
+func (rec mapRectangle) GetCentre() mapVec {
+	centreX := (rec.minX + rec.maxX) / 2
+	centreY := (rec.minY + rec.maxY) / 2
 
-	return MapVec{centre_x, centre_y}
+	return mapVec{centreX, centreY}
 }
 
 // DoesIntersect returns a boolean.
