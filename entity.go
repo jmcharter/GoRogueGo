@@ -16,7 +16,6 @@ type Entity struct {
 	y              int
 	gridX          float64
 	gridY          float64
-	rect           pixel.Rect
 	colour         color.RGBA
 	blocksMovement bool
 }
@@ -31,17 +30,22 @@ func CreateEntity(x, y int, colour color.RGBA, blocksMovement bool) Entity {
 	fy := float64(y)
 
 	return Entity{
-		x:     x,
-		y:     y,
-		gridX: fx * F_TILE_SIZE,
-		gridY: fy * F_TILE_SIZE,
-		rect: pixel.Rect{
-			Min: pixel.V(fx*F_TILE_SIZE, fy*F_TILE_SIZE),
-			Max: pixel.V(fx*F_TILE_SIZE+F_TILE_SIZE, fy*F_TILE_SIZE+F_TILE_SIZE),
-		},
+		x:              x,
+		y:              y,
+		gridX:          fx * F_TILE_SIZE,
+		gridY:          fy * F_TILE_SIZE,
 		colour:         colour,
 		blocksMovement: blocksMovement,
 	}
+}
+
+// GetRect returns a pixel.Rect built from current x,y and TILE_SIZE
+func (e Entity) GetRect() pixel.Rect {
+	fx := float64(e.gridX)
+	fy := float64(e.gridY)
+	F_TILE_SIZE := float64(TILE_SIZE)
+	r := pixel.R(fx, fy, fx+F_TILE_SIZE, fy+F_TILE_SIZE)
+	return r
 }
 
 // Move updates the x and y values of Entity by dx and dy

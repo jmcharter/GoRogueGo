@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	"math/rand"
 	"time"
 
@@ -10,7 +11,7 @@ import (
 	"golang.org/x/image/colornames"
 )
 
-func drawGrid(surface *pixelgl.Window) {
+func drawGrid(surface *pixelgl.Window) error {
 	imd := imdraw.New(nil)
 	imd.Color = LINE_COLOUR
 	for x := 0.0; x < WIDTH; x += TILE_SIZE {
@@ -23,13 +24,36 @@ func drawGrid(surface *pixelgl.Window) {
 		imd.Line(1)
 		imd.Draw(surface)
 	}
+	return nil
+}
+
+func drawWall(GameMap gameMap, surface *pixelgl.Window) {
+	F_TILE_SIZE := float64(TILE_SIZE)
+	imd := imdraw.New(nil)
+	imd.Color = WALL_COLOUR
+
+	for y := range GameMap.tiles {
+		for x := range GameMap.tiles[y] {
+			if GameMap.tiles[y][x].blocksMovement {
+				fy := float64(y) * F_TILE_SIZE
+				fx := float64(x) * F_TILE_SIZE
+				square := pixel.R(fx, fy, fx+F_TILE_SIZE, fy+F_TILE_SIZE)
+				imd.Push(square.Min)
+				imd.Push(square.Max)
+				imd.Rectangle(0)
+			}
+		}
+	}
+
+	imd.Draw(surface)
+
 }
 
 func drawEntity(entity Entity, surface *pixelgl.Window) {
 	imd := imdraw.New(nil)
 	imd.Color = entity.colour
-	imd.Push(pixel.V(entity.gridX, entity.gridY))
-	imd.Push(pixel.V(entity.gridX+TILE_SIZE, entity.gridY+TILE_SIZE))
+	imd.Push(entity.GetRect().Min)
+	imd.Push(entity.GetRect().Max)
 	imd.Rectangle(0)
 	imd.Draw(surface)
 }
@@ -46,27 +70,28 @@ func run() {
 	}
 
 	player := CreateEntity(
-		10,
-		5,
+		3,
+		3,
 		colornames.Orangered,
 		false,
 	)
 
+	var GameMap gameMap
+	GameMap.init()
 	entities = append(entities, &player)
 
-	for x := 10; x < 16; x++ {
-		newEntity := CreateEntity(x, 15, colornames.Navajowhite, true)
-		entities = append(entities, &newEntity)
-	}
-
 	for !win.Closed() {
-		checkKeyPress(&player, win)
+		checkKeyPress(&player, GameMap, win)
 		win.Clear(BG_COLOUR)
+		drawWall(GameMap, win)
 		for _, entity := range entities {
 			drawEntity(*entity, win)
 		}
 		if GRID_ON {
-			drawGrid(win)
+			err := drawGrid(win)
+			if err != nil {
+				fmt.Print(err)
+			}
 		}
 		win.Update()
 	}
