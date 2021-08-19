@@ -11,8 +11,8 @@ import (
 type Entity struct {
 	x      int
 	y      int
-	grid_x float64
-	grid_y float64
+	gridX  float64
+	gridY  float64
 	rect   pixel.Rect
 	colour color.RGBA
 }
@@ -27,10 +27,10 @@ func CreateEntity(x, y int, colour color.RGBA) Entity {
 	fy := float64(y)
 
 	return Entity{
-		x:      x,
-		y:      y,
-		grid_x: fx * F_TILE_SIZE,
-		grid_y: fy * F_TILE_SIZE,
+		x:     x,
+		y:     y,
+		gridX: fx * F_TILE_SIZE,
+		gridY: fy * F_TILE_SIZE,
 		rect: pixel.Rect{
 			Min: pixel.V(fx*F_TILE_SIZE, fy*F_TILE_SIZE),
 			Max: pixel.V(fx*F_TILE_SIZE+F_TILE_SIZE, fy*F_TILE_SIZE+F_TILE_SIZE),
@@ -48,6 +48,6 @@ func (e *Entity) Move(dx, dy int) {
 
 // updateGridPos updates the values of grid_x and grid_y in respect to x and y
 func (e *Entity) updateGridPos() {
-	e.grid_x = float64(e.x * TILE_SIZE)
-	e.grid_y = float64(e.y * TILE_SIZE)
+	e.gridX = float64(e.x * TILE_SIZE)
+	e.gridY = float64(e.y * TILE_SIZE)
 }

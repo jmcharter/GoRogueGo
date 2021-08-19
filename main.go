@@ -28,8 +28,8 @@ func drawGrid(surface *pixelgl.Window) {
 func drawEntity(entity Entity, surface *pixelgl.Window) {
 	imd := imdraw.New(nil)
 	imd.Color = entity.colour
-	imd.Push(pixel.V(entity.grid_x, entity.grid_y))
-	imd.Push(pixel.V(entity.grid_x+TILE_SIZE, entity.grid_y+TILE_SIZE))
+	imd.Push(pixel.V(entity.gridX, entity.gridY))
+	imd.Push(pixel.V(entity.gridX+TILE_SIZE, entity.gridY+TILE_SIZE))
 	imd.Rectangle(0)
 	imd.Draw(surface)
 }
