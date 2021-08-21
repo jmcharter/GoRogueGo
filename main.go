@@ -27,13 +27,18 @@ func drawGrid(surface *pixelgl.Window) error {
 	return nil
 }
 
-func drawWall(GameMap gameMap, surface *pixelgl.Window) {
+func drawWalls(GameMap gameMap, surface *pixelgl.Window) {
 	F_TILE_SIZE := float64(TILE_SIZE)
 	imd := imdraw.New(nil)
 	imd.Color = WALL_COLOUR
 
 	for y := range GameMap.tiles {
 		for x := range GameMap.tiles[y] {
+			if GameMap.tiles[y][x].highlight {
+				imd.Color = HIGHLIGHT_COLOUR
+			} else {
+				imd.Color = WALL_COLOUR
+			}
 			if GameMap.tiles[y][x].blocksMovement {
 				fy := float64(y) * F_TILE_SIZE
 				fx := float64(x) * F_TILE_SIZE
@@ -70,20 +75,20 @@ func run() {
 	}
 
 	player := CreateEntity(
-		3,
-		3,
+		0,
+		0,
 		colornames.Orangered,
 		false,
 	)
 
 	var GameMap gameMap
-	GameMap.init()
+	GameMap.init(&player)
 	entities = append(entities, &player)
 
 	for !win.Closed() {
 		checkKeyPress(&player, GameMap, win)
 		win.Clear(BG_COLOUR)
-		drawWall(GameMap, win)
+		drawWalls(GameMap, win)
 		for _, entity := range entities {
 			drawEntity(*entity, win)
 		}
@@ -98,6 +103,7 @@ func run() {
 }
 
 func main() {
+	// rand.Seed(3141592653)
 	rand.Seed(time.Now().UnixNano())
 	pixelgl.Run(run)
 }
