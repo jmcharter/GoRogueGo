@@ -18,8 +18,9 @@ const (
 
 // Various other settings such as colours and booleans.
 var (
-	BG_COLOUR   = colornames.Steelblue // Window background colour
-	LINE_COLOUR = colornames.Steelblue // Grid line colour
-	WALL_COLOUR = colornames.Midnightblue
-	GRID_ON     = true // true to display grid
+	BG_COLOUR        = colornames.Steelblue // Window background colour
+	LINE_COLOUR      = colornames.Black     // Grid line colour
+	WALL_COLOUR      = colornames.Midnightblue
+	HIGHLIGHT_COLOUR = colornames.Blanchedalmond
+	GRID_ON          = true // true to display grid
 )
