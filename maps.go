@@ -1,5 +1,6 @@
 package main
 
+// Map room settings
 const (
 	MIN_ROOM_SIZE = 5
 	MAX_ROOM_SIZE = 12
