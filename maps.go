@@ -4,8 +4,8 @@ package main
 const (
 	MIN_ROOM_SIZE = 5
 	MAX_ROOM_SIZE = 12
-	MIN_ROOM_QTY  = 5
-	MAX_ROOM_QTY  = 10
+	MIN_ROOM_QTY  = 7
+	MAX_ROOM_QTY  = 20
 )
 
 type tile struct {
@@ -33,13 +33,6 @@ func (gm *gameMap) init(pc *Entity) {
 	}
 
 	generateDungeon(gm)
-	// Test room to be removed
-	// room1 := CreateMapRectangle(2, 3, 10, 10)
-	// room2 := CreateMapRectangle(22, 3, 10, 10)
-	// gm.createRoom(room1)
-	// gm.createRoom(room2)
-	// gm.createHorizontalTunnel(room1.GetCentre().x, room2.GetCentre().x, room1.GetCentre().y)
-
 }
 
 func (gm *gameMap) createRoom(r mapRectangle) {
